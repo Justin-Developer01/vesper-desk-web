@@ -36,4 +36,18 @@ export const windowsDownloadUrl: string | null =
 
 The header, hero, and download section all use that constant. An absolute URL opens in a new tab. `null` keeps the CTA on `#download`.
 
+The download section also notes that the installer is unsigned for now. Windows SmartScreen may ask for More info, then Run anyway.
+
 The GitHub links on the page point at this website repository, [Justin-Developer01/vesper-desk-web](https://github.com/Justin-Developer01/vesper-desk-web), because the desktop repository is not public yet.
+
+## Focus screenshot
+
+The slot under the hero is an illustration of Focus mode (one stream, thin bar) until a real capture exists.
+
+Drop a PNG at `public/focus-mode.png`, then set this in `lib/site.ts`:
+
+```ts
+export const focusScreenshotSrc: string | null = "/focus-mode.png";
+```
+
+`null` keeps the illustration.

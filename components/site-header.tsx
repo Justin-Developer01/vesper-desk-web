@@ -3,8 +3,7 @@ import { productName, siteRepoUrl } from "@/lib/site";
 
 const links = [
   { href: "#features", label: "Features" },
-  { href: "#modes", label: "Modes" },
-  { href: "#notes", label: "Notes" },
+  { href: "#docs", label: "Docs" },
 ];
 
 export function SiteHeader() {
@@ -14,11 +13,11 @@ export function SiteHeader() {
         <a href="#top" className="inline-flex items-center gap-2 text-paper no-underline">
           <span
             aria-hidden="true"
-            className="size-2 rounded-full bg-lamp shadow-[0_0_0_4px_rgba(228,196,154,0.14)]"
+            className="size-2 rounded-full bg-glow shadow-[0_0_10px_rgba(142,207,255,0.85)]"
           />
           <span className="text-[0.95rem] font-medium tracking-tight">{productName}</span>
         </a>
-        <nav aria-label="Page" className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-muted">
+        <nav aria-label="Page" className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
           {links.map((link) => (
             <a key={link.href} href={link.href} className="text-muted no-underline hover:text-paper">
               {link.label}

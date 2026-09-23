@@ -5,7 +5,7 @@ export const productName = "Vesper Desk";
 export const tagline = "Several streams. One quiet desk.";
 
 export const description =
-  "Vesper Desk is a Windows desktop overlay for watching several Twitch streams at once — thin frosted chrome, saved layouts, docked chat, and pop-outs on a frameless desk.";
+  "Vesper Desk is a Windows desktop overlay for several Twitch streams. Focus leaves a thin bar, chat pushes the layout, and a stream can pop out and dock back.";
 
 /**
  * Windows installer URL.
@@ -17,11 +17,16 @@ export const description =
  */
 export const windowsDownloadUrl: string | null = null;
 
+/**
+ * Real Focus-mode screenshot.
+ * Drop a PNG in `public/` (for example `public/focus-mode.png`) and set
+ * this to "/focus-mode.png". null keeps the built-in illustration.
+ */
+export const focusScreenshotSrc: string | null = null;
+
 export const desktopRepoUrl = "https://github.com/Justin-Developer01/vesper-desk";
 
 export const siteRepoUrl = "https://github.com/Justin-Developer01/vesper-desk-web";
-
-export const contactUrl = "https://github.com/Justin-Developer01/vesper-desk-web/issues";
 
 export const publisherName = "nxtqore";
 
@@ -35,42 +40,42 @@ export function isExternalDownload(): boolean {
 
 export const features = [
   {
-    title: "Thin frosted chrome",
-    body: "A hairline frame, soft blur, and type that stays out of the picture. The desk does not wear a loud player shell.",
+    title: "Focus / strip",
+    body: "One stream forward. A thin bar is the only chrome that stays.",
   },
   {
-    title: "Layouts and templates",
-    body: "Arrange several streams into a desk you can keep. Switch templates when the night changes, without rebuilding the grid.",
+    title: "Chat that pushes",
+    body: "Chat opens beside the picture and moves the layout over.",
   },
   {
-    title: "Docked chat",
-    body: "Chat sits with the stream it belongs to, so you can read along without opening another browser tab.",
+    title: "Pop-outs + Dock back",
+    body: "Pull a stream into its own window. Dock it back when you are done.",
   },
   {
-    title: "Pop-outs",
-    body: "Pull one stream or its chat into a separate window — beside a game, a document, or another monitor.",
+    title: "See through + Lock",
+    body: "Let the desktop show between panes, then lock the desk in place.",
   },
   {
-    title: "Focus, Performance, Standard",
-    body: "Focus clears the desk down. Performance spends less. Standard keeps the full chrome, chat, and layout tools.",
+    title: "Templates",
+    body: "Save a layout and open it again, without rebuilding the grid.",
   },
   {
-    title: "See through and Lock",
-    body: "See through windows lets the desktop show between panes. Lock holds the overlay still so a click does not drag it away.",
+    title: "Mode",
+    body: "Standard, Focus, or Performance. Same desk, different weight.",
   },
 ] as const;
 
-export const modes = [
+export const quickStart = [
   {
-    name: "Focus",
-    body: "The desk steps back. One stream stays forward while extra chrome recedes.",
+    title: "Add channel",
+    body: "Place a Twitch channel on the desk.",
   },
   {
-    name: "Performance",
-    body: "Several streams, with a lighter desk. For when the machine should spend its attention elsewhere.",
+    title: "Login",
+    body: "Sign in so the stream and chat can open.",
   },
   {
-    name: "Standard",
-    body: "The everyday desk. Layouts, docked chat, and the usual thin chrome, all in reach.",
+    title: "Focus",
+    body: "Switch to Focus. The thin bar stays up.",
   },
 ] as const;

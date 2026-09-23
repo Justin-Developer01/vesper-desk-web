@@ -14,8 +14,8 @@ export default function OpenGraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          backgroundColor: "#0b0c0f",
-          color: "#f4f0e8",
+          backgroundColor: "#07090d",
+          color: "#eef3f8",
           padding: "72px",
         }}
       >
@@ -24,7 +24,7 @@ export default function OpenGraphImage() {
             display: "flex",
             fontSize: 22,
             letterSpacing: 6,
-            color: "#e4c49a",
+            color: "#8ecfff",
           }}
         >
           WINDOWS DESKTOP
@@ -38,14 +38,14 @@ export default function OpenGraphImage() {
               display: "flex",
               marginTop: 16,
               fontSize: 36,
-              color: "#c4bdb0",
+              color: "#b7c4d2",
             }}
           >
             Several streams. One quiet desk.
           </div>
         </div>
-        <div style={{ display: "flex", fontSize: 24, color: "#9c9588" }}>
-          A frosted multi-stream Twitch overlay
+        <div style={{ display: "flex", fontSize: 24, color: "#8ea0b3" }}>
+          Focus mode. A thin bar. One quiet desk.
         </div>
       </div>
     ),

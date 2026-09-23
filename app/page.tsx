@@ -1,8 +1,8 @@
 import { DownloadSection } from "@/components/download-section";
 import { FeatureGrid } from "@/components/feature-grid";
+import { FocusShot } from "@/components/focus-shot";
 import { Hero } from "@/components/hero";
-import { Modes } from "@/components/modes";
-import { Notes } from "@/components/notes";
+import { QuickStart } from "@/components/quick-start";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 
@@ -12,10 +12,10 @@ export default function Home() {
       <SiteHeader />
       <main id="content">
         <Hero />
+        <FocusShot />
         <FeatureGrid />
-        <Modes />
+        <QuickStart />
         <DownloadSection />
-        <Notes />
       </main>
       <SiteFooter />
     </div>
