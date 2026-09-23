@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Vesper Desk
 
-## Getting Started
+Marketing site for **Vesper Desk**, a Windows desktop overlay for watching several Twitch streams on one quiet desk.
 
-First, run the development server:
+Live direction: [vesper-desk-web.vercel.app](https://vesper-desk-web.vercel.app). Product domain direction: vesperdesk.app.
+
+The desktop app window may still say Stream Watcher. This website uses the name Vesper Desk.
+
+## Develop
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Download CTA
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**Download for Windows** reads `windowsDownloadUrl` in `lib/site.ts`.
 
-## Learn More
+Checked 23 September 2026:
 
-To learn more about Next.js, take a look at the following resources:
+- `https://github.com/Justin-Developer01/vesper-desk` is not a public repository.
+- No Vesper-named release assets were available.
+- No Stream Watcher Setup EXE was published under Justin-Developer01. The only public repository on that account is `nxtqore`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Until an installer exists, `windowsDownloadUrl` is `null` and the button links to `#download` on this page, where that status is explained.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+When a release is published, set `windowsDownloadUrl` to the Setup EXE asset URL (Vesper-named if present, otherwise the newest Stream Watcher Setup EXE):
 
-## Deploy on Vercel
+```ts
+export const windowsDownloadUrl: string | null =
+  "https://github.com/Justin-Developer01/vesper-desk/releases/download/<tag>/<Setup.exe>";
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The header, hero, and download section all use that constant. An absolute URL opens in a new tab. `null` keeps the CTA on `#download`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The GitHub links on the page point at this website repository, [Justin-Developer01/vesper-desk-web](https://github.com/Justin-Developer01/vesper-desk-web), because the desktop repository is not public yet.

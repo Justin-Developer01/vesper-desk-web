@@ -1,7 +1,8 @@
 {
-  "name": "nextjs",
+  "name": "vesper-desk-web",
   "version": "0.1.0",
   "private": true,
+  "description": "Marketing site for Vesper Desk, a Windows multi-stream Twitch desk.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
