@@ -1,21 +1,21 @@
 import { DownloadSection } from "@/components/download-section";
-import { FeatureGrid } from "@/components/feature-grid";
-import { FocusShot } from "@/components/focus-shot";
+import { Faq } from "@/components/faq";
+import { Features } from "@/components/features";
 import { Hero } from "@/components/hero";
-import { QuickStart } from "@/components/quick-start";
+import { HowItWorks } from "@/components/how-it-works";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 
 export default function Home() {
   return (
-    <div id="top">
+    <div id="top" className="flex flex-1 flex-col">
       <SiteHeader />
-      <main id="content">
+      <main id="content" className="flex-1">
         <Hero />
-        <FocusShot />
-        <FeatureGrid />
-        <QuickStart />
+        <Features />
+        <HowItWorks />
         <DownloadSection />
+        <Faq />
       </main>
       <SiteFooter />
     </div>

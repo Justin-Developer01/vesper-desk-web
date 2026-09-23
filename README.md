@@ -1,10 +1,10 @@
 # Vesper Desk
 
-Marketing site for **Vesper Desk**, a Windows desktop overlay for watching several Twitch streams on one quiet desk.
+Marketing site for **Vesper Desk**, a free Windows app for watching several Twitch streams on one quiet desk.
 
-Live direction: [vesper-desk-web.vercel.app](https://vesper-desk-web.vercel.app). Product domain direction: vesperdesk.app.
+Live: [vesper-desk-web.vercel.app](https://vesper-desk-web.vercel.app). Planned domain: vesperdesk.app.
 
-The desktop app window may still say Stream Watcher. This website uses the name Vesper Desk.
+The desktop app still ships as **Stream Watcher** (installer, window title, `appId`). The site calls it Vesper Desk, and the FAQ explains the difference.
 
 ## Develop
 
@@ -15,39 +15,48 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-## Download CTA
+All page copy and switches live in `lib/site.ts`.
 
-**Download for Windows** reads `windowsDownloadUrl` in `lib/site.ts`.
+## Site URL
 
-Checked 23 September 2026:
+`siteUrl` is used for canonical URLs, Open Graph, `sitemap.xml`, and `robots.txt`. It resolves in this order:
 
-- `https://github.com/Justin-Developer01/vesper-desk` is not a public repository.
-- No Vesper-named release assets were available.
-- No Stream Watcher Setup EXE was published under Justin-Developer01. The only public repository on that account is `nxtqore`.
+1. `NEXT_PUBLIC_SITE_URL`, for example `https://vesperdesk.app`
+2. `VERCEL_PROJECT_PRODUCTION_URL`, set automatically on Vercel
+3. `https://vesper-desk-web.vercel.app`
 
-Until an installer exists, `windowsDownloadUrl` is `null` and the button links to `#download` on this page, where that status is explained.
+Set `NEXT_PUBLIC_SITE_URL` in Vercel when the custom domain goes live.
 
-When a release is published, set `windowsDownloadUrl` to the Setup EXE asset URL (Vesper-named if present, otherwise the newest Stream Watcher Setup EXE):
+## Download state
+
+`windowsDownloadUrl` in `lib/site.ts` controls the whole download experience.
+
+- **`null` (current):** the site is in its "coming soon" state. The header shows a Coming soon chip, the hero links to the features, and the download section explains that the app is in pre-release testing. There are no dead download buttons and no SmartScreen note.
+- **A URL:** the header, hero, and download section all show **Download for Windows**, the SmartScreen note appears, and the URL is added to the JSON-LD.
+
+The desktop app's electron-builder config publishes releases to `Justin-Developer01/stream-watcher`. When that repository is public, the simplest value is the latest-release page, which lists both the Setup and Portable EXEs:
 
 ```ts
 export const windowsDownloadUrl: string | null =
-  "https://github.com/Justin-Developer01/vesper-desk/releases/download/<tag>/<Setup.exe>";
+  "https://github.com/Justin-Developer01/stream-watcher/releases/latest";
 ```
 
-The header, hero, and download section all use that constant. An absolute URL opens in a new tab. `null` keeps the CTA on `#download`.
+Checked 23 September 2026: neither `stream-watcher` nor `vesper-desk` is public on GitHub, and no release assets are available.
 
-The download section also notes that the installer is unsigned for now. Windows SmartScreen may ask for More info, then Run anyway.
+## GitHub links
 
-The GitHub links on the page point at this website repository, [Justin-Developer01/vesper-desk-web](https://github.com/Justin-Developer01/vesper-desk-web), because the desktop repository is not public yet.
+`desktopRepoUrl` is `null`, so the header and footer show no GitHub link. Set it to the desktop app repository once it is public. The links deliberately do not point at this website repository.
 
-## Focus screenshot
+## Hero screenshot
 
-The slot under the hero is an illustration of Focus mode (one stream, thin bar) until a real capture exists.
+The hero shows a built-in illustration of the app (four streams, Focus, chat open) until a real capture exists.
 
-Drop a PNG at `public/focus-mode.png`, then set this in `lib/site.ts`:
+Drop a 16:9 PNG at `public/desk.png`, then set:
 
 ```ts
-export const focusScreenshotSrc: string | null = "/focus-mode.png";
+export const heroScreenshotSrc: string | null = "/desk.png";
 ```
 
-`null` keeps the illustration.
+## Icons
+
+`app/icon.svg` is the source mark. `app/favicon.ico` (16, 32, 48 px) and `app/apple-icon.png` (180 px) are rendered from the same design. Regenerate them if the mark changes.

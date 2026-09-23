@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { JsonLd } from "@/components/json-ld";
-import { description, productName, siteUrl, tagline } from "@/lib/site";
+import { description, productName, publisherName, siteUrl, tagline } from "@/lib/site";
 import "./globals.css";
 
 const inter = Inter({
@@ -20,13 +20,14 @@ export const metadata: Metadata = {
   },
   description,
   applicationName: productName,
-  authors: [{ name: "nxtqore" }],
+  authors: [{ name: publisherName }],
   keywords: [
     "Vesper Desk",
     "Twitch",
     "multi-stream",
+    "multiple Twitch streams",
+    "Twitch viewer",
     "Windows",
-    "desktop overlay",
     "Stream Watcher",
   ],
   alternates: {

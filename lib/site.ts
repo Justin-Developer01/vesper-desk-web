@@ -1,81 +1,152 @@
-export const siteUrl = "https://vesper-desk-web.vercel.app";
+import type { LucideIcon } from "lucide-react";
+import {
+  AppWindow,
+  Focus,
+  Gauge,
+  Keyboard,
+  LayoutGrid,
+  LayoutTemplate,
+  MessageSquareText,
+  PictureInPicture2,
+} from "lucide-react";
+
+/**
+ * Public origin used for canonical URLs, Open Graph, the sitemap, and robots.
+ * Set NEXT_PUBLIC_SITE_URL when the site moves to its own domain. On Vercel,
+ * the production URL is picked up automatically.
+ */
+export const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : "https://vesper-desk-web.vercel.app");
 
 export const productName = "Vesper Desk";
+
+export const publisherName = "nxtqore";
 
 export const tagline = "Several streams. One quiet desk.";
 
 export const description =
-  "Vesper Desk is a Windows desktop overlay for several Twitch streams. Focus leaves a thin bar, chat pushes the layout, and a stream can pop out and dock back.";
+  "Vesper Desk is a free Windows app for watching several Twitch streams at once. Chat makes room instead of covering the picture, streams pop out to a second monitor, and Focus mode leaves nothing but a thin bar.";
 
 /**
  * Windows installer URL.
  *
- * Set this to a direct Setup EXE (or the GitHub latest-release URL) when
- * Justin-Developer01/vesper-desk publishes a Vesper-named asset or a
- * Stream Watcher Setup EXE. While this is null, Download for Windows
- * stays on #download. See the README.
+ * While this is null the site shows its "coming soon" state: no download
+ * buttons, no SmartScreen note. When a release is published, set it to the
+ * Setup EXE asset or the releases page, for example
+ * "https://github.com/Justin-Developer01/stream-watcher/releases/latest".
+ * See the README.
  */
 export const windowsDownloadUrl: string | null = null;
 
 /**
- * Real Focus-mode screenshot.
- * Drop a PNG in `public/` (for example `public/focus-mode.png`) and set
- * this to "/focus-mode.png". null keeps the built-in illustration.
+ * Public source repository for the desktop app. The GitHub links in the header
+ * and footer only appear once this is set.
  */
-export const focusScreenshotSrc: string | null = null;
+export const desktopRepoUrl: string | null = null;
 
-export const desktopRepoUrl = "https://github.com/Justin-Developer01/vesper-desk";
+/**
+ * Real app screenshot for the hero. Drop a 16:9 PNG in `public/` and set this
+ * to its path, for example "/desk.png". null keeps the built-in illustration.
+ */
+export const heroScreenshotSrc: string | null = null;
 
-export const siteRepoUrl = "https://github.com/Justin-Developer01/vesper-desk-web";
+export const details = [
+  "Windows 10 or 11, 64-bit",
+  "Installer or portable EXE",
+  "Built-in update check",
+  "Twitch account optional",
+] as const;
 
-export const publisherName = "nxtqore";
+export type Feature = {
+  icon: LucideIcon;
+  title: string;
+  body: string;
+};
 
-export function downloadHref(): string {
-  return windowsDownloadUrl ?? "#download";
-}
-
-export function isExternalDownload(): boolean {
-  return windowsDownloadUrl !== null;
-}
-
-export const features = [
+export const features: Feature[] = [
   {
-    title: "Focus / strip",
-    body: "One stream forward. A thin bar is the only chrome that stays.",
+    icon: LayoutGrid,
+    title: "Layouts that fill the screen",
+    body: "One, two, four, or one large with three alongside. The grid always fits the window, with no scrolling.",
   },
   {
-    title: "Chat that pushes",
-    body: "Chat opens beside the picture and moves the layout over.",
+    icon: Focus,
+    title: "Focus mode",
+    body: "Bring one stream forward. The controls shrink to a thin bar that stays out of the picture.",
   },
   {
-    title: "Pop-outs + Dock back",
-    body: "Pull a stream into its own window. Dock it back when you are done.",
+    icon: MessageSquareText,
+    title: "Chat that makes room",
+    body: "Chat opens beside the stream and moves the layout over, so it never covers the video.",
   },
   {
-    title: "See through + Lock",
-    body: "Let the desktop show between panes, then lock the desk in place.",
+    icon: PictureInPicture2,
+    title: "Built for two monitors",
+    body: "Pop a stream or its chat into its own window, keep it on top, and dock it back when you are done.",
   },
   {
-    title: "Templates",
-    body: "Save a layout and open it again, without rebuilding the grid.",
+    icon: AppWindow,
+    title: "See-through desk",
+    body: "Let your desktop show through the empty space and click straight past it. Lock the window to stop click-through.",
   },
   {
-    title: "Mode",
-    body: "Standard, Focus, or Performance. Same desk, different weight.",
+    icon: Gauge,
+    title: "Performance mode",
+    body: "The stream you are watching stays at full quality with sound. The rest pause or drop to low quality.",
+  },
+  {
+    icon: LayoutTemplate,
+    title: "Saved templates",
+    body: "Save a set of channels and a layout, then open it again in one click.",
+  },
+  {
+    icon: Keyboard,
+    title: "Make it yours",
+    body: "Dark, Dim, or Light themes, your own accent colors, and remappable hotkeys for the controls you use most.",
+  },
+];
+
+export const steps = [
+  {
+    title: "Install",
+    body: "Run the installer, or use the portable EXE with nothing to install.",
+  },
+  {
+    title: "Add channels",
+    body: "Click the title bar, add the Twitch channels you want, and pick a layout.",
+  },
+  {
+    title: "Sign in (optional)",
+    body: "Log in to Twitch to send chat messages and use your Prime benefits.",
   },
 ] as const;
 
-export const quickStart = [
+export const faqs = [
   {
-    title: "Add channel",
-    body: "Place a Twitch channel on the desk.",
+    question: "Is Vesper Desk free?",
+    answer: "Yes. There is no subscription and no account to create.",
   },
   {
-    title: "Login",
-    body: "Sign in so the stream and chat can open.",
+    question: "Do I need a Twitch account?",
+    answer:
+      "No. You can watch without signing in. Sign in only if you want to send chat messages or use Twitch Prime benefits. You sign in on Twitch's own page, and Vesper Desk only asks for permission to read and send chat.",
   },
   {
-    title: "Focus",
-    body: "Switch to Focus. The thin bar stays up.",
+    question: "Why does Windows show a SmartScreen warning?",
+    answer:
+      "The installer is not code-signed yet, so Windows does not recognize the publisher. Choose More info, then Run anyway. Updates show the same prompt until signing is in place.",
+  },
+  {
+    question: "The installer says Stream Watcher. Is that the right app?",
+    answer:
+      "Yes. Stream Watcher is the app's working name, and the installer and window may still use it. It is the same app.",
+  },
+  {
+    question: "Is Vesper Desk made by Twitch?",
+    answer:
+      "No. Vesper Desk is an independent app and is not affiliated with or endorsed by Twitch Interactive, Inc.",
   },
 ] as const;
