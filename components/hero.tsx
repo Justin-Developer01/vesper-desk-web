@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { DownloadLink } from "@/components/download-link";
 import { tagline } from "@/lib/site";
 
@@ -11,10 +12,10 @@ export function Hero() {
         {tagline}
       </p>
       <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
-        <DownloadLink className="btn btn-primary" />
-        <a className="btn btn-ghost" href="#docs">
+        <DownloadLink />
+        <Button variant="ghost" href="#docs">
           Docs
-        </a>
+        </Button>
       </div>
     </section>
   );

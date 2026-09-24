@@ -5,17 +5,7 @@ export const productName = "Vesper Desk";
 export const tagline = "Several streams. One quiet desk.";
 
 export const description =
-  "Vesper Desk is a Windows desktop overlay for several Twitch streams. Focus leaves a thin bar, chat pushes the layout, and a stream can pop out and dock back.";
-
-/**
- * Windows installer URL.
- *
- * Set this to a direct Setup EXE (or the GitHub latest-release URL) when
- * Justin-Developer01/vesper-desk publishes a Vesper-named asset or a
- * Stream Watcher Setup EXE. While this is null, Download for Windows
- * stays on #download. See the README.
- */
-export const windowsDownloadUrl: string | null = null;
+  "Vesper Desk is a Windows desktop overlay for Twitch, Kick, and YouTube — streams and videos, side by side. Focus leaves a thin bar, chat pushes the layout, and a stream can pop out and dock back.";
 
 /**
  * Real Focus-mode screenshot.
@@ -30,15 +20,11 @@ export const siteRepoUrl = "https://github.com/Justin-Developer01/vesper-desk-we
 
 export const publisherName = "nxtqore";
 
-export function downloadHref(): string {
-  return windowsDownloadUrl ?? "#download";
-}
-
-export function isExternalDownload(): boolean {
-  return windowsDownloadUrl !== null;
-}
-
 export const features = [
+  {
+    title: "Twitch, Kick & YouTube",
+    body: "Mix live channels and regular videos on the same desk.",
+  },
   {
     title: "Focus / strip",
     body: "One stream forward. A thin bar is the only chrome that stays.",
@@ -68,11 +54,11 @@ export const features = [
 export const quickStart = [
   {
     title: "Add channel",
-    body: "Place a Twitch channel on the desk.",
+    body: "Paste a Twitch or Kick channel, or a YouTube video link.",
   },
   {
     title: "Login",
-    body: "Sign in so the stream and chat can open.",
+    body: "Sign in with Twitch if you want chat. Kick and YouTube need no login.",
   },
   {
     title: "Focus",

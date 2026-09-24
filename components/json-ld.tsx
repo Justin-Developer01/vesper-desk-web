@@ -1,12 +1,10 @@
-import {
-  description,
-  productName,
-  publisherName,
-  siteUrl,
-  windowsDownloadUrl,
-} from "@/lib/site";
+import { description, productName, publisherName, siteUrl } from "@/lib/site";
+import { fetchLatestRelease } from "@/lib/github";
 
-export function JsonLd() {
+export async function JsonLd() {
+  const release = await fetchLatestRelease();
+  const asset = release?.assets[0];
+
   const data = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
@@ -19,7 +17,7 @@ export function JsonLd() {
       "@type": "Organization",
       name: publisherName,
     },
-    ...(windowsDownloadUrl ? { downloadUrl: windowsDownloadUrl } : {}),
+    ...(asset ? { downloadUrl: asset.url, softwareVersion: release.version } : {}),
   };
 
   return (

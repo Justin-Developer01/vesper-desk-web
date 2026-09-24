@@ -1,8 +1,8 @@
 import { DownloadLink } from "@/components/download-link";
-import { isExternalDownload } from "@/lib/site";
+import { fetchLatestRelease } from "@/lib/github";
 
-export function DownloadSection() {
-  const ready = isExternalDownload();
+export async function DownloadSection() {
+  const release = await fetchLatestRelease();
 
   return (
     <section id="download" aria-labelledby="download-title" className="shell py-20">
@@ -10,10 +10,10 @@ export function DownloadSection() {
         <h2 id="download-title" className="m-0 text-3xl font-medium tracking-tight sm:text-4xl">
           Download for Windows
         </h2>
-        {ready ? (
+        {release ? (
           <p className="mt-4 mb-0 max-w-2xl text-lg leading-relaxed text-muted">
-            The current Windows installer. The desktop window may still say Stream Watcher. This
-            site calls it Vesper Desk.
+            The current Windows installer, {release.version}. The desktop window may still say
+            Stream Watcher. This site calls it Vesper Desk.
           </p>
         ) : (
           <p className="mt-4 mb-0 max-w-2xl text-lg leading-relaxed text-muted">
@@ -23,7 +23,7 @@ export function DownloadSection() {
           </p>
         )}
         <div className="mt-7">
-          <DownloadLink className="btn btn-primary" />
+          <DownloadLink />
         </div>
         <div className="mt-8 border-t border-line pt-6">
           <h3 className="m-0 text-base font-medium text-paper">SmartScreen</h3>

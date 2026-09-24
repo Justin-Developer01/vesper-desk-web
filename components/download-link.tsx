@@ -1,22 +1,24 @@
-import { downloadHref, isExternalDownload } from "@/lib/site";
+import { Button } from "@/components/ui/button";
+import { fetchLatestRelease } from "@/lib/github";
 
 type DownloadLinkProps = {
+  variant?: "primary" | "ghost";
   className?: string;
   children?: React.ReactNode;
 };
 
-export function DownloadLink({ className, children }: DownloadLinkProps) {
-  const external = isExternalDownload();
+export async function DownloadLink({ variant = "primary", className, children }: DownloadLinkProps) {
+  const release = await fetchLatestRelease();
+  const asset = release?.assets[0];
 
   return (
-    <a
+    <Button
+      variant={variant}
       className={className}
-      href={downloadHref()}
-      {...(external
-        ? { target: "_blank", rel: "noopener noreferrer" }
-        : {})}
+      href={asset?.url ?? "#download"}
+      {...(asset ? { target: "_blank", rel: "noopener noreferrer" } : {})}
     >
       {children ?? "Download for Windows"}
-    </a>
+    </Button>
   );
 }

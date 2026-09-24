@@ -17,28 +17,27 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Download CTA
 
-**Download for Windows** reads `windowsDownloadUrl` in `lib/site.ts`.
+**Download for Windows** is dynamic — `lib/github.ts`'s `fetchLatestRelease()` reads the
+newest release from the `Justin-Developer01/vesper-desk` GitHub Releases API at request
+time (cached for 1 hour) and picks the `*Setup*.exe` asset. The header, hero, and download
+section all call it, so there's nothing to hand-update here when a new build ships.
 
-Checked 23 September 2026:
+Every release so far is a prerelease, so this deliberately does not use GitHub's
+`/releases/latest` endpoint (stable-only, would 404) — it reads the plain releases list,
+which is already sorted newest-first and includes prereleases.
 
-- `https://github.com/Justin-Developer01/vesper-desk` is not a public repository.
-- No Vesper-named release assets were available.
-- No Stream Watcher Setup EXE was published under Justin-Developer01. The only public repository on that account is `nxtqore`.
+If the API is unreachable or no installer asset is attached to the newest release,
+`fetchLatestRelease()` returns `null` and the button falls back to `#download`, where that
+status is explained.
 
-Until an installer exists, `windowsDownloadUrl` is `null` and the button links to `#download` on this page, where that status is explained.
+The download section also notes that the installer is unsigned for now. Windows SmartScreen
+may ask for More info, then Run anyway.
 
-When a release is published, set `windowsDownloadUrl` to the Setup EXE asset URL (Vesper-named if present, otherwise the newest Stream Watcher Setup EXE):
-
-```ts
-export const windowsDownloadUrl: string | null =
-  "https://github.com/Justin-Developer01/vesper-desk/releases/download/<tag>/<Setup.exe>";
-```
-
-The header, hero, and download section all use that constant. An absolute URL opens in a new tab. `null` keeps the CTA on `#download`.
-
-The download section also notes that the installer is unsigned for now. Windows SmartScreen may ask for More info, then Run anyway.
-
-The GitHub links on the page point at this website repository, [Justin-Developer01/vesper-desk-web](https://github.com/Justin-Developer01/vesper-desk-web), because the desktop repository is not public yet.
+The GitHub links on the page (`siteRepoUrl` in `lib/site.ts`) still point at this website
+repository rather than [Justin-Developer01/vesper-desk](https://github.com/Justin-Developer01/vesper-desk).
+That repo is public now with real prereleases (as of 24 September 2026), so this is worth
+revisiting — left as-is here since redirecting site traffic to the app's repo is a product
+decision, not a technical constraint anymore.
 
 ## Focus screenshot
 
