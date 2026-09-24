@@ -24,6 +24,8 @@ export const metadata: Metadata = {
   keywords: [
     "Vesper Desk",
     "Twitch",
+    "Kick",
+    "YouTube",
     "multi-stream",
     "Windows",
     "desktop overlay",
