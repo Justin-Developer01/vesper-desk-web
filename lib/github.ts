@@ -17,11 +17,18 @@ type GitHubRelease = {
 };
 
 /**
- * The newest published release on Justin-Developer01/vesper-desk, or null if
- * the API is unreachable or no installer asset is attached yet. Every
- * release so far is a prerelease, so GitHub's /releases/latest endpoint
- * (stable-only) can't be used — this reads the plain releases list instead,
- * which is already sorted newest-first and includes prereleases.
+ * The newest published release on Justin-Developer01/vesper-desk that
+ * actually has a Setup asset attached, or null if the API is unreachable or
+ * no such release exists. Every release so far is a prerelease, so GitHub's
+ * /releases/latest endpoint (stable-only) can't be used — this reads the
+ * plain releases list instead, which is already sorted newest-first and
+ * includes prereleases.
+ *
+ * electron-builder publishes the release entry before it finishes uploading
+ * assets, so the newest release can briefly have zero assets while its
+ * build is still running. Falling through to the next-newest release avoids
+ * showing "not on GitHub yet" during that window when an older, complete
+ * release is still available.
  */
 export async function fetchLatestRelease(): Promise<LatestRelease | null> {
   try {
@@ -32,27 +39,31 @@ export async function fetchLatestRelease(): Promise<LatestRelease | null> {
     if (!res.ok) return null;
 
     const releases: GitHubRelease[] = await res.json();
-    const release = releases.find((r) => !r.draft);
-    if (!release) return null;
 
-    const setupAsset = release.assets.find((a) => /Setup.*\.exe$/i.test(a.name));
-    if (!setupAsset) return null;
+    for (const release of releases) {
+      if (release.draft) continue;
 
-    const assets: ReleaseAsset[] = [
-      {
-        platform: "windows",
-        kind: "installer",
-        url: setupAsset.browser_download_url,
-        sizeBytes: setupAsset.size,
-      },
-    ];
+      const setupAsset = release.assets.find((a) => /Setup.*\.exe$/i.test(a.name));
+      if (!setupAsset) continue;
 
-    return {
-      version: release.tag_name,
-      publishedAt: release.published_at,
-      notesUrl: release.html_url,
-      assets,
-    };
+      const assets: ReleaseAsset[] = [
+        {
+          platform: "windows",
+          kind: "installer",
+          url: setupAsset.browser_download_url,
+          sizeBytes: setupAsset.size,
+        },
+      ];
+
+      return {
+        version: release.tag_name,
+        publishedAt: release.published_at,
+        notesUrl: release.html_url,
+        assets,
+      };
+    }
+
+    return null;
   } catch {
     return null;
   }
