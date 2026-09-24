@@ -8,16 +8,6 @@ export const description =
   "Vesper Desk is a Windows desktop overlay for several Twitch streams. Focus leaves a thin bar, chat pushes the layout, and a stream can pop out and dock back.";
 
 /**
- * Windows installer URL.
- *
- * Set this to a direct Setup EXE (or the GitHub latest-release URL) when
- * Justin-Developer01/vesper-desk publishes a Vesper-named asset or a
- * Stream Watcher Setup EXE. While this is null, Download for Windows
- * stays on #download. See the README.
- */
-export const windowsDownloadUrl: string | null = null;
-
-/**
  * Real Focus-mode screenshot.
  * Drop a PNG in `public/` (for example `public/focus-mode.png`) and set
  * this to "/focus-mode.png". null keeps the built-in illustration.
@@ -29,14 +19,6 @@ export const desktopRepoUrl = "https://github.com/Justin-Developer01/vesper-desk
 export const siteRepoUrl = "https://github.com/Justin-Developer01/vesper-desk-web";
 
 export const publisherName = "nxtqore";
-
-export function downloadHref(): string {
-  return windowsDownloadUrl ?? "#download";
-}
-
-export function isExternalDownload(): boolean {
-  return windowsDownloadUrl !== null;
-}
 
 export const features = [
   {

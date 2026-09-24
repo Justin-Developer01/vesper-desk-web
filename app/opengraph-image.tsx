@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { colors } from "@/lib/colors";
+import { webTokens } from "@vesper-desk/shared";
 
 export const alt = "Vesper Desk — Several streams. One quiet desk.";
 export const size = { width: 1200, height: 630 };
@@ -15,8 +15,8 @@ export default function OpenGraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          backgroundColor: colors.ink,
-          color: colors.paper,
+          backgroundColor: webTokens.colorInk,
+          color: webTokens.colorPaper,
           padding: "72px",
         }}
       >
@@ -25,7 +25,7 @@ export default function OpenGraphImage() {
             display: "flex",
             fontSize: 22,
             letterSpacing: 6,
-            color: colors.glow,
+            color: webTokens.colorGlow,
           }}
         >
           WINDOWS DESKTOP
@@ -39,13 +39,13 @@ export default function OpenGraphImage() {
               display: "flex",
               marginTop: 16,
               fontSize: 36,
-              color: colors.muted,
+              color: webTokens.colorMuted,
             }}
           >
             Several streams. One quiet desk.
           </div>
         </div>
-        <div style={{ display: "flex", fontSize: 24, color: colors.faint }}>
+        <div style={{ display: "flex", fontSize: 24, color: webTokens.colorFaint }}>
           Focus mode. A thin bar. One quiet desk.
         </div>
       </div>
