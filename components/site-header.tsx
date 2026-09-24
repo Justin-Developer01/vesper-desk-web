@@ -32,7 +32,7 @@ export function SiteHeader() {
             GitHub
           </a>
         </nav>
-        <DownloadLink className="btn btn-primary ml-auto px-4 text-sm" />
+        <DownloadLink className="ml-auto px-4 text-sm" />
       </div>
     </header>
   );

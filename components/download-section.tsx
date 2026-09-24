@@ -23,7 +23,7 @@ export function DownloadSection() {
           </p>
         )}
         <div className="mt-7">
-          <DownloadLink className="btn btn-primary" />
+          <DownloadLink />
         </div>
         <div className="mt-8 border-t border-line pt-6">
           <h3 className="m-0 text-base font-medium text-paper">SmartScreen</h3>

@@ -1,15 +1,18 @@
+import { Button } from "@/components/ui/button";
 import { downloadHref, isExternalDownload } from "@/lib/site";
 
 type DownloadLinkProps = {
+  variant?: "primary" | "ghost";
   className?: string;
   children?: React.ReactNode;
 };
 
-export function DownloadLink({ className, children }: DownloadLinkProps) {
+export function DownloadLink({ variant = "primary", className, children }: DownloadLinkProps) {
   const external = isExternalDownload();
 
   return (
-    <a
+    <Button
+      variant={variant}
       className={className}
       href={downloadHref()}
       {...(external
@@ -17,6 +20,6 @@ export function DownloadLink({ className, children }: DownloadLinkProps) {
         : {})}
     >
       {children ?? "Download for Windows"}
-    </a>
+    </Button>
   );
 }

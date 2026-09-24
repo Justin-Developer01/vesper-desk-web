@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+/* Keep these in sync with lib/colors.ts, used by app/opengraph-image.tsx
+   (Satori can't read CSS custom properties, so it needs plain values). */
 @theme inline {
   --font-sans: var(--font-inter), "Inter", ui-sans-serif, system-ui, sans-serif;
   --color-ink: #07090d;

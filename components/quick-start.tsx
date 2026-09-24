@@ -8,7 +8,7 @@ export function QuickStart() {
       </h2>
       <ol className="m-0 grid list-none gap-3 p-0 md:grid-cols-3">
         {quickStart.map((step, index) => (
-          <li key={step.title} className="rounded-2xl border border-line px-5 py-5">
+          <li key={step.title} className="glass rounded-2xl px-5 py-5">
             <p className="m-0 text-xs tracking-[0.16em] text-glow">{String(index + 1).padStart(2, "0")}</p>
             <h3 className="mt-3 mb-2 text-lg font-medium text-paper">{step.title}</h3>
             <p className="m-0 leading-relaxed text-muted">{step.body}</p>
