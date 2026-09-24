@@ -1,69 +1,25 @@
-import type { LatestRelease, ReleaseAsset } from "@vesper-desk/shared";
+import type { LatestRelease } from "@vesper-desk/shared";
 
-const RELEASES_API = "https://api.github.com/repos/Justin-Developer01/vesper-desk/releases";
-
-type GitHubReleaseAsset = {
-  name: string;
-  browser_download_url: string;
-  size: number;
-};
-
-type GitHubRelease = {
-  tag_name: string;
-  html_url: string;
-  published_at: string;
-  draft: boolean;
-  assets: GitHubReleaseAsset[];
-};
+const BACKEND_INFO_URL = "https://api.vesperdesk.app/v1/download/latest/info";
 
 /**
- * The newest published release on Justin-Developer01/vesper-desk that
- * actually has a Setup asset attached, or null if the API is unreachable or
- * no such release exists. Every release so far is a prerelease, so GitHub's
- * /releases/latest endpoint (stable-only) can't be used — this reads the
- * plain releases list instead, which is already sorted newest-first and
- * includes prereleases.
- *
- * electron-builder publishes the release entry before it finishes uploading
- * assets, so the newest release can briefly have zero assets while its
- * build is still running. Falling through to the next-newest release avoids
- * showing "not on GitHub yet" during that window when an older, complete
- * release is still available.
+ * Release metadata from the vesper-desk-backend download proxy, which does
+ * the actual GitHub release-walking/asset-matching (and, once
+ * Justin-Developer01/vesper-desk goes private, the authenticated resolve).
+ * The asset URL it returns is the backend's own stable redirect endpoint,
+ * not GitHub's short-lived signed URL — that one expires in about an hour,
+ * so resolving and baking it into this statically-generated page directly
+ * would risk serving expired links between ISR revalidations.
  */
 export async function fetchLatestRelease(): Promise<LatestRelease | null> {
   try {
-    const res = await fetch(RELEASES_API, {
-      headers: { Accept: "application/vnd.github+json" },
+    const res = await fetch(BACKEND_INFO_URL, {
+      headers: { Accept: "application/json" },
       next: { revalidate: 3600 },
     });
     if (!res.ok) return null;
 
-    const releases: GitHubRelease[] = await res.json();
-
-    for (const release of releases) {
-      if (release.draft) continue;
-
-      const setupAsset = release.assets.find((a) => /Setup.*\.exe$/i.test(a.name));
-      if (!setupAsset) continue;
-
-      const assets: ReleaseAsset[] = [
-        {
-          platform: "windows",
-          kind: "installer",
-          url: setupAsset.browser_download_url,
-          sizeBytes: setupAsset.size,
-        },
-      ];
-
-      return {
-        version: release.tag_name,
-        publishedAt: release.published_at,
-        notesUrl: release.html_url,
-        assets,
-      };
-    }
-
-    return null;
+    return (await res.json()) as LatestRelease;
   } catch {
     return null;
   }
