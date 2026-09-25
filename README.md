@@ -1,10 +1,8 @@
 # Vesper Desk
 
-Marketing site for **Vesper Desk**, a Windows desktop overlay for watching several Twitch streams on one quiet desk.
+Marketing site for **Vesper Desk**, a Windows desktop overlay for Twitch, Kick, and YouTube — streams and videos, side by side.
 
-Live direction: [vesper-desk-web.vercel.app](https://vesper-desk-web.vercel.app). Product domain direction: vesperdesk.app.
-
-The desktop app window may still say Stream Watcher. This website uses the name Vesper Desk.
+Live at [www.vesperdesk.app](https://www.vesperdesk.app).
 
 ## Develop
 
@@ -17,18 +15,17 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Download CTA
 
-**Download for Windows** is dynamic — `lib/github.ts`'s `fetchLatestRelease()` reads the
-newest release from the `Justin-Developer01/vesper-desk` GitHub Releases API at request
-time (cached for 1 hour) and picks the `*Setup*.exe` asset. The header, hero, and download
-section all call it, so there's nothing to hand-update here when a new build ships.
+The download button and the JSON-LD `downloadUrl`/`softwareVersion` fields are locked to
+"Coming soon" via `downloadReady` in `lib/site.ts`, even though `lib/github.ts`'s
+`fetchLatestRelease()` already resolves a real installer through `vesper-desk-backend`'s
+`/v1/download/latest/info`. Flip `downloadReady` to `true` only after Justin OKs a promo tag
+for a public release — nothing else needs to change to go live.
 
-Every release so far is a prerelease, so this deliberately does not use GitHub's
-`/releases/latest` endpoint (stable-only, would 404) — it reads the plain releases list,
-which is already sorted newest-first and includes prereleases.
-
-If the API is unreachable or no installer asset is attached to the newest release,
-`fetchLatestRelease()` returns `null` and the button falls back to `#download`, where that
-status is explained.
+Once `downloadReady` is `true`: the header, hero, and download section all call
+`fetchLatestRelease()`, which reads `vesper-desk-backend`'s cached release info (backed by
+`Justin-Developer01/vesper-desk`'s GitHub Releases, cached for 1 hour). If the backend is
+unreachable or has no installer asset yet, `fetchLatestRelease()` returns `null` and the
+button falls back to `#download`.
 
 The download section also notes that the installer is unsigned for now. Windows SmartScreen
 may ask for More info, then Run anyway.

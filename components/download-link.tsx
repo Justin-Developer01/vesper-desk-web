@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { fetchLatestRelease } from "@/lib/github";
+import { downloadReady } from "@/lib/site";
 
 type DownloadLinkProps = {
   variant?: "primary" | "ghost";
@@ -8,6 +9,14 @@ type DownloadLinkProps = {
 };
 
 export async function DownloadLink({ variant = "primary", className, children }: DownloadLinkProps) {
+  if (!downloadReady) {
+    return (
+      <span className={["btn", "btn-ghost", className].filter(Boolean).join(" ")} aria-disabled="true">
+        {children ?? "Coming soon"}
+      </span>
+    );
+  }
+
   const release = await fetchLatestRelease();
   const asset = release?.assets[0];
 

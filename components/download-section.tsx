@@ -1,25 +1,21 @@
 import { DownloadLink } from "@/components/download-link";
-import { fetchLatestRelease } from "@/lib/github";
+import { downloadReady, productName } from "@/lib/site";
 
-export async function DownloadSection() {
-  const release = await fetchLatestRelease();
-
+export function DownloadSection() {
   return (
     <section id="download" aria-labelledby="download-title" className="shell py-20">
       <div className="glass rounded-[28px] px-6 py-10 sm:px-10 sm:py-12">
         <h2 id="download-title" className="m-0 text-3xl font-medium tracking-tight sm:text-4xl">
           Download for Windows
         </h2>
-        {release ? (
+        {downloadReady ? (
           <p className="mt-4 mb-0 max-w-2xl text-lg leading-relaxed text-muted">
-            The current Windows installer, {release.version}. The desktop window may still say
-            Stream Watcher. This site calls it Vesper Desk.
+            Grab the current Windows installer below.
           </p>
         ) : (
           <p className="mt-4 mb-0 max-w-2xl text-lg leading-relaxed text-muted">
-            The Windows installer is not on GitHub yet. This button stays on the page until
-            Justin-Developer01/vesper-desk publishes a release — a Vesper Desk Setup EXE, or a
-            Stream Watcher Setup EXE if that is the file that ships first.
+            {productName} is not public yet. The download button will go live here once a
+            release is ready to share.
           </p>
         )}
         <div className="mt-7">
