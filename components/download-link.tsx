@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { fetchLatestRelease } from "@/lib/github";
+import { BACKEND_DOWNLOAD_URL, fetchLatestRelease } from "@/lib/github";
 import { downloadReady } from "@/lib/site";
 
 type DownloadLinkProps = {
@@ -19,13 +19,15 @@ export async function DownloadLink({ variant = "primary", className, children }:
 
   const release = await fetchLatestRelease();
   const asset = release?.assets[0];
+  const href = asset?.url ?? BACKEND_DOWNLOAD_URL;
 
   return (
     <Button
       variant={variant}
       className={className}
-      href={asset?.url ?? "#download"}
-      {...(asset ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
     >
       {children ?? "Download for Windows"}
     </Button>
