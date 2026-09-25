@@ -15,13 +15,9 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Download CTA
 
-The download button and the JSON-LD `downloadUrl`/`softwareVersion` fields are locked to
-"Coming soon" via `downloadReady` in `lib/site.ts`, even though `lib/github.ts`'s
-`fetchLatestRelease()` already resolves a real installer through `vesper-desk-backend`'s
-`/v1/download/latest/info`. Flip `downloadReady` to `true` only after Justin OKs a promo tag
-for a public release — nothing else needs to change to go live.
+`downloadReady` in `lib/site.ts` is `true` and the download CTA is live (after Justin OK'd promo tag v1.1.0-pre.2). Flipping `downloadReady` back to `false` re-locks the button and JSON-LD to "Coming soon".
 
-Once `downloadReady` is `true`: the header, hero, and download section all call
+With `downloadReady` set to `true`: the header, hero, and download section all call
 `fetchLatestRelease()`, which reads `vesper-desk-backend`'s cached release info (backed by
 `Justin-Developer01/vesper-desk`'s GitHub Releases, cached for 1 hour). If the backend is
 unreachable or has no installer asset yet, `fetchLatestRelease()` returns `null` and the
