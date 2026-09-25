@@ -1,6 +1,14 @@
-export const siteUrl = "https://vesper-desk-web.vercel.app";
+export const siteUrl = "https://www.vesperdesk.app";
 
 export const productName = "Vesper Desk";
+
+/**
+ * The landing page's download CTA and JSON-LD stay "Coming soon" while this
+ * is false, even though vesper-desk-backend's /v1/download/latest already
+ * resolves a real installer — flip to true only after Justin OKs a promo
+ * tag for a public release. Nothing else needs to change to go live.
+ */
+export const downloadReady = false;
 
 export const tagline = "Several streams. One quiet desk.";
 

@@ -1,8 +1,8 @@
-import { description, productName, publisherName, siteUrl } from "@/lib/site";
+import { description, downloadReady, productName, publisherName, siteUrl } from "@/lib/site";
 import { fetchLatestRelease } from "@/lib/github";
 
 export async function JsonLd() {
-  const release = await fetchLatestRelease();
+  const release = downloadReady ? await fetchLatestRelease() : null;
   const asset = release?.assets[0];
 
   const data = {
@@ -23,7 +23,7 @@ export async function JsonLd() {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data).replace(/</g, "\\u003c") }}
     />
   );
 }

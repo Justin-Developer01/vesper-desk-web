@@ -29,7 +29,6 @@ export const metadata: Metadata = {
     "multi-stream",
     "Windows",
     "desktop overlay",
-    "Stream Watcher",
   ],
   alternates: {
     canonical: "/",

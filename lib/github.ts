@@ -16,10 +16,14 @@ export async function fetchLatestRelease(): Promise<LatestRelease | null> {
     const res = await fetch(BACKEND_INFO_URL, {
       headers: { Accept: "application/json" },
       next: { revalidate: 3600 },
+      signal: AbortSignal.timeout(5000),
     });
     if (!res.ok) return null;
 
-    return (await res.json()) as LatestRelease;
+    const json = (await res.json()) as Partial<LatestRelease>;
+    if (typeof json.version !== "string" || !Array.isArray(json.assets)) return null;
+
+    return json as LatestRelease;
   } catch {
     return null;
   }
