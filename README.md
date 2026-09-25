@@ -20,8 +20,9 @@ Open [http://localhost:3000](http://localhost:3000).
 With `downloadReady` set to `true`: the header, hero, and download section all call
 `fetchLatestRelease()`, which reads `vesper-desk-backend`'s cached release info (backed by
 `Justin-Developer01/vesper-desk`'s GitHub Releases, cached for 1 hour). If the backend is
-unreachable or has no installer asset yet, `fetchLatestRelease()` returns `null` and the
-button falls back to `#download`.
+unreachable, times out, or has no installer asset yet, `fetchLatestRelease()` returns `null`
+and the button falls back to the backend's stable download redirect endpoint
+(`https://api.vesperdesk.app/v1/download/latest`), ensuring users are never left with a dead link.
 
 The download section also notes that the installer is unsigned for now. Windows SmartScreen
 may ask for More info, then Run anyway.

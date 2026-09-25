@@ -1,6 +1,7 @@
 import type { LatestRelease } from "@vesper-desk/shared";
 
-const BACKEND_INFO_URL = "https://api.vesperdesk.app/v1/download/latest/info";
+export const BACKEND_INFO_URL = "https://api.vesperdesk.app/v1/download/latest/info";
+export const BACKEND_DOWNLOAD_URL = "https://api.vesperdesk.app/v1/download/latest";
 
 /**
  * Release metadata from the vesper-desk-backend download proxy, which does
