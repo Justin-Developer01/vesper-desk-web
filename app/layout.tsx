@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   },
   description,
   applicationName: productName,
-  authors: [{ name: "nxtqore" }],
+  authors: [{ name: "Vesper Desk" }],
   keywords: [
     "Vesper Desk",
     "Twitch",

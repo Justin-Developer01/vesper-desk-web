@@ -44,3 +44,39 @@ export const focusScreenshotSrc: string | null = "/focus-mode.png";
 ```
 
 `null` keeps the illustration.
+
+## Accounts & Connected Platforms (Supabase & Kick Setup)
+
+Phase 1 adds the web account shell (`/account`) with frost sign-in/sign-up and server-side connected platform links (Kick first).
+
+### Security Architecture
+
+- **Supabase Auth**: Users authenticate via email magic link or password. Sessions are managed via Supabase JWT cookies handled through `@supabase/ssr`.
+- **Platform Token Isolation**: Linked third-party tokens (access & refresh tokens) are encrypted at rest with AES-256-GCM (`TOKEN_ENCRYPTION_KEY`) in `public.linked_platforms`. Column-level permissions revoke `SELECT`, `INSERT`, and `UPDATE` on token ciphertexts from `anon` and `authenticated` roles. Writes and reads of token ciphertexts are restricted to the service role.
+- **Fail-Closed Token Management**: All token writes and disconnect mutations require a valid server-side service role client (`SUPABASE_SERVICE_ROLE_KEY`). The system fails closed and never attempts to write ciphertext columns using the user JWT client.
+- **Server-Only OAuth**: Kick OAuth uses PKCE and exchanges tokens strictly in server route handlers. Tokens never reach the browser or client-side JavaScript.
+- **Session Refresh**: Standard Supabase SSR middleware (`middleware.ts`) automatically keeps auth cookies fresh across server components and routes.
+- **Graceful Degradation**: If Supabase or Kick environment variables are missing, the UI gracefully indicates setup requirements without breaking or crashing.
+
+### Setup Instructions
+
+1. **Supabase Database Migration (Project: `mhowgvkyfnzpciwcbivr`)**:
+   - In your Supabase Dashboard SQL Editor (or using the Supabase CLI linked to `mhowgvkyfnzpciwcbivr`):
+     ```bash
+     # To link and push via Supabase CLI:
+     npx supabase link --project-ref mhowgvkyfnzpciwcbivr
+     npx supabase db push
+     ```
+     Or execute `supabase/migrations/20260926000000_vesper_accounts.sql` and `supabase/migrations/20260926010000_linked_platforms_ciphertext_revoke_write.sql` directly into the Supabase Dashboard SQL editor.
+   - This creates `profiles` and `linked_platforms` tables, RLS policies, `on_auth_user_created` trigger, revoked column permissions (`SELECT`, `INSERT`, `UPDATE` on ciphertext), and the `user_linked_platforms` security-invoker view.
+
+2. **Environment Variables**:
+   Copy `.env.example` to `.env.local` (or configure in Vercel project settings):
+   - `NEXT_PUBLIC_SUPABASE_URL`: `https://mhowgvkyfnzpciwcbivr.supabase.co` (pre-configured)
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Set your anon/publishable key from the Supabase Dashboard (Project Settings → API).
+   - `SUPABASE_SERVICE_ROLE_KEY`: Set your service role key (server-only, Project Settings → API).
+   - `TOKEN_ENCRYPTION_KEY`: A 32-byte secret for token encryption (generate 64 hex characters with `openssl rand -hex 32` or string >= 32 chars).
+   - `KICK_CLIENT_ID`: Kick developer application client ID.
+   - `KICK_CLIENT_SECRET`: Kick developer application client secret.
+   - `KICK_REDIRECT_URI`: OAuth callback URL (e.g. `https://www.vesperdesk.app/auth/kick/callback` or `http://localhost:3000/auth/kick/callback` for local development).
+
