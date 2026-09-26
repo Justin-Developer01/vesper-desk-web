@@ -20,10 +20,10 @@ export function SiteFooter() {
           <Link href="/#docs" className="text-muted no-underline hover:text-paper">
             Docs
           </Link>
-          <Link href="/legal/terms" className="text-muted no-underline hover:text-paper">
+          <Link href="/terms" className="text-muted no-underline hover:text-paper">
             Terms
           </Link>
-          <Link href="/legal/privacy" className="text-muted no-underline hover:text-paper">
+          <Link href="/policy" className="text-muted no-underline hover:text-paper">
             Privacy
           </Link>
         </nav>
