@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import crypto from "node:crypto";
 import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import {
@@ -13,6 +14,13 @@ import { encryptToken } from "@/lib/crypto";
 
 const KICK_TOKEN_URL = "https://id.kick.com/oauth/token";
 const KICK_USER_API_URL = "https://api.kick.com/public/v1/users";
+
+function timingSafeEqualStr(a: string, b: string): boolean {
+  const bufA = Buffer.from(a);
+  const bufB = Buffer.from(b);
+  if (bufA.length !== bufB.length) return false;
+  return crypto.timingSafeEqual(bufA, bufB);
+}
 
 export async function GET(request: Request) {
   const requestUrl = new URL(request.url);
@@ -52,7 +60,15 @@ export async function GET(request: Request) {
     return NextResponse.redirect(accountUrl);
   }
 
-  // 2. Validate state & retrieve code_verifier from cookies
+  // 2. Fail closed on token DB writes: service role client is strictly required
+  const serviceClient = createServiceClient();
+  if (!serviceClient) {
+    console.error("Kick OAuth callback: service role client is not configured");
+    accountUrl.searchParams.set("error", "service_role_required");
+    return NextResponse.redirect(accountUrl);
+  }
+
+  // 3. Validate state & retrieve code_verifier from cookies using timing-safe compare
   const cookieStore = await cookies();
   const storedState = cookieStore.get("kick_oauth_state")?.value;
   const codeVerifier = cookieStore.get("kick_code_verifier")?.value;
@@ -61,7 +77,7 @@ export async function GET(request: Request) {
   cookieStore.delete("kick_oauth_state");
   cookieStore.delete("kick_code_verifier");
 
-  if (!storedState || storedState !== state || !codeVerifier) {
+  if (!storedState || !timingSafeEqualStr(storedState, state) || !codeVerifier) {
     accountUrl.searchParams.set("error", "invalid_oauth_state");
     return NextResponse.redirect(accountUrl);
   }
@@ -75,7 +91,7 @@ export async function GET(request: Request) {
     KICK_REDIRECT_URI || `${requestUrl.origin}/auth/kick/callback`;
 
   try {
-    // 3. Exchange authorization code for tokens
+    // 4. Exchange authorization code for tokens
     const tokenRes = await fetch(KICK_TOKEN_URL, {
       method: "POST",
       headers: {
@@ -112,7 +128,7 @@ export async function GET(request: Request) {
       return NextResponse.redirect(accountUrl);
     }
 
-    // 4. Fetch Kick user profile to get platform_user_id & platform_username
+    // 5. Fetch Kick user profile to get platform_user_id & platform_username
     let platformUserId = "";
     let platformUsername: string | null = null;
 
@@ -126,21 +142,24 @@ export async function GET(request: Request) {
 
       if (userRes.ok) {
         const kickUserData = await userRes.json();
-        // Kick API response format commonly has data[0] or user object
         const u = kickUserData.data?.[0] || kickUserData.data || kickUserData;
-        platformUserId = String(u.user_id || u.id || "");
-        platformUsername = u.username || u.name || null;
+        if (u && (u.user_id || u.id)) {
+          platformUserId = String(u.user_id || u.id);
+        }
+        platformUsername = u?.username || u?.name || null;
       }
     } catch (e) {
       console.warn("Could not fetch Kick user details:", e);
     }
 
-    // If platformUserId was not returned by API, fall back to hash or unknown
+    // Fail closed: reject link if user API returns no stable platform_user_id
     if (!platformUserId) {
-      platformUserId = `kick_${Date.now()}`;
+      console.error("Kick OAuth callback: failed to retrieve stable platform_user_id");
+      accountUrl.searchParams.set("error", "kick_user_id_missing");
+      return NextResponse.redirect(accountUrl);
     }
 
-    // 5. Encrypt tokens at rest (tokens never reach browser)
+    // 6. Encrypt tokens at rest (tokens never reach browser)
     const accessTokenCiphertext = encryptToken(tokenData.access_token);
     const refreshTokenCiphertext = tokenData.refresh_token
       ? encryptToken(tokenData.refresh_token)
@@ -152,11 +171,8 @@ export async function GET(request: Request) {
 
     const scopes = tokenData.scope ? tokenData.scope.split(" ") : [];
 
-    // 6. Store in linked_platforms using service client (or fallback server client)
-    const serviceClient = createServiceClient();
-    const dbClient = serviceClient || supabase;
-
-    const { error: upsertError } = await dbClient
+    // 7. Store in linked_platforms using strictly serviceClient
+    const { error: upsertError } = await serviceClient
       .from("linked_platforms")
       .upsert(
         {

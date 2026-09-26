@@ -80,6 +80,12 @@ export default async function AccountPage(props: AccountPageProps) {
     };
   } else if (searchParams.error) {
     const errorMap: Record<string, string> = {
+      service_role_required:
+        "Supabase service role key is required for platform token security.",
+      kick_user_id_missing:
+        "Kick account details could not be verified. Please try again.",
+      invalid_platform:
+        "Invalid platform requested.",
       kick_not_configured:
         "Kick OAuth is not yet configured on this deployment.",
       encryption_not_configured:

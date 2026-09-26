@@ -3,6 +3,8 @@ import { createClient } from "@/lib/supabase/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import type { PlatformName } from "@/types/account";
 
+const VALID_PLATFORMS: PlatformName[] = ["kick", "twitch", "youtube"];
+
 export async function POST(request: Request) {
   const accountUrl = new URL("/account", request.url);
 
@@ -22,7 +24,7 @@ export async function POST(request: Request) {
     return NextResponse.redirect(accountUrl);
   }
 
-  // Parse platform from request form or body
+  // 2. Parse and validate platform from request form or body
   let platform: PlatformName = "kick";
   try {
     const contentType = request.headers.get("content-type") || "";
@@ -38,11 +40,21 @@ export async function POST(request: Request) {
     // defaults to kick
   }
 
-  const serviceClient = createServiceClient();
-  const dbClient = serviceClient || supabase;
+  if (!VALID_PLATFORMS.includes(platform)) {
+    accountUrl.searchParams.set("error", "invalid_platform");
+    return NextResponse.redirect(accountUrl);
+  }
 
-  // Clear link row server-side
-  const { error } = await dbClient
+  // 3. Fail closed on token DB writes: service role client is strictly required
+  const serviceClient = createServiceClient();
+  if (!serviceClient) {
+    console.error("Disconnect route: service role client is not configured");
+    accountUrl.searchParams.set("error", "service_role_required");
+    return NextResponse.redirect(accountUrl);
+  }
+
+  // Clear link row server-side via service role client
+  const { error } = await serviceClient
     .from("linked_platforms")
     .delete()
     .eq("user_id", user.id)

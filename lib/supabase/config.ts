@@ -30,5 +30,11 @@ export function isKickOAuthConfigured(): boolean {
 }
 
 export function isTokenEncryptionConfigured(): boolean {
-  return Boolean(TOKEN_ENCRYPTION_KEY && TOKEN_ENCRYPTION_KEY.length >= 32);
+  if (!TOKEN_ENCRYPTION_KEY) return false;
+  if (/placeholder/i.test(TOKEN_ENCRYPTION_KEY)) return false;
+  // Valid if 64 hex characters (32 bytes) or any key string of length >= 32
+  return (
+    /^[0-9a-fA-F]{64}$/.test(TOKEN_ENCRYPTION_KEY) ||
+    TOKEN_ENCRYPTION_KEY.length >= 32
+  );
 }

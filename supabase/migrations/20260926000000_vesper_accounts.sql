@@ -99,9 +99,9 @@ create policy "Users can delete their own linked platforms"
   to authenticated
   using (auth.uid() = user_id);
 
--- Revoke column-level select permissions on token ciphertexts from public, anon, and authenticated roles.
--- Only service_role can read access_token_ciphertext and refresh_token_ciphertext.
-revoke select (access_token_ciphertext, refresh_token_ciphertext) on public.linked_platforms from public, anon, authenticated;
+-- Revoke column-level select, insert, and update permissions on token ciphertexts from public, anon, and authenticated roles.
+-- Token ciphertext writes and reads must only be performed via service_role.
+revoke select, insert, update (access_token_ciphertext, refresh_token_ciphertext) on public.linked_platforms from public, anon, authenticated;
 
 -- Service role retains full access for server-side token management
 grant all on public.linked_platforms to service_role;
