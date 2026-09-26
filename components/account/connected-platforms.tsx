@@ -216,6 +216,10 @@ export function ConnectedPlatforms({
           </div>
         ))}
       </div>
+
+      <p className="text-xs text-muted leading-relaxed">
+        Twitch Drops aren’t available in Vesper right now. Linked accounts may still help with presence or points where Twitch allows.
+      </p>
     </section>
   );
 }
