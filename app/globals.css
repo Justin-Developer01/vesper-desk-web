@@ -62,8 +62,8 @@ section[id] {
 .glass {
   /* Frosted panel without a live blur. backdrop-filter on each card resampled
      the page during scroll; color-mix keeps the cool translucent fill. */
-  background-color: color-mix(in srgb, rgb(12 16 24 / 92%) 94%, var(--color-glow));
-  background-image: linear-gradient(180deg, rgba(186, 220, 255, 0.07), rgba(186, 220, 255, 0.025));
+  background-color: color-mix(in srgb, rgb(12 16 24 / 90%) 98%, var(--color-glow));
+  background-image: linear-gradient(180deg, rgba(186, 220, 255, 0.06), rgba(186, 220, 255, 0.02));
   border: 1px solid rgba(150, 198, 240, 0.2);
   box-shadow:
     inset 0 1px 0 rgba(210, 230, 255, 0.1),
