@@ -8,7 +8,7 @@ const links = [
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-30 border-b border-line bg-ink/75 backdrop-blur-xl">
+    <header className="site-header sticky top-0 z-30 border-b border-line bg-ink/85 backdrop-blur-[8px]">
       <div className="shell flex flex-wrap items-center gap-x-6 gap-y-3 py-3">
         <a href="#top" className="inline-flex items-center gap-2 text-paper no-underline">
           <span
