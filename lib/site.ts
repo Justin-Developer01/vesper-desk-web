@@ -24,8 +24,6 @@ export const desktopRepoUrl = "https://github.com/Justin-Developer01/vesper-desk
 
 export const siteRepoUrl = "https://github.com/Justin-Developer01/vesper-desk-web";
 
-export const publisherName = "Vesper Desk";
-
 export const features = [
   {
     title: "Twitch, Kick & YouTube",

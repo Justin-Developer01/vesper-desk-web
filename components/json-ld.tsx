@@ -1,4 +1,4 @@
-import { description, downloadReady, productName, publisherName, siteUrl } from "@/lib/site";
+import { description, downloadReady, productName, siteUrl } from "@/lib/site";
 import { fetchLatestRelease } from "@/lib/github";
 
 export async function JsonLd() {
@@ -15,7 +15,7 @@ export async function JsonLd() {
     url: siteUrl,
     publisher: {
       "@type": "Organization",
-      name: publisherName,
+      name: productName,
     },
     ...(asset ? { downloadUrl: asset.url, softwareVersion: release.version } : {}),
   };

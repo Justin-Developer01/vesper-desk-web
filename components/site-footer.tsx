@@ -1,12 +1,12 @@
 import Link from "next/link";
-import { productName, publisherName, siteRepoUrl } from "@/lib/site";
+import { productName, siteRepoUrl } from "@/lib/site";
 
 export function SiteFooter() {
   return (
     <footer className="border-t border-line">
       <div className="shell flex flex-col gap-4 py-8 sm:flex-row sm:items-center sm:justify-between">
         <p className="m-0 text-sm text-muted">
-          © 2026 {publisherName}. {productName} is not affiliated with Twitch, Kick, or YouTube.
+          © 2026 {productName}. {productName} is not affiliated with Twitch, Kick, or YouTube.
         </p>
         <nav aria-label="Footer" className="flex flex-wrap gap-5 text-sm">
           <a
