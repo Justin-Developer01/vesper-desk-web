@@ -1,4 +1,5 @@
 -- Migration: 20260926000000_vesper_accounts.sql
+-- Target Project: mhowgvkyfnzpciwcbivr (https://mhowgvkyfnzpciwcbivr.supabase.co)
 -- Description: Profiles and linked_platforms tables with strict RLS and secure token isolation.
 
 -- 1. Profiles table

@@ -30,10 +30,10 @@ export function FrostAuthCard({ isConfigured }: FrostAuthCardProps) {
           <h2 className="text-lg font-medium tracking-tight">Vesper Account</h2>
         </div>
         <p className="mt-3 text-sm text-muted leading-relaxed">
-          Supabase environment variables are not configured on this instance.
-          Set <code className="rounded bg-ink-raised px-1.5 py-0.5 text-xs text-paper">NEXT_PUBLIC_SUPABASE_URL</code> and{" "}
-          <code className="rounded bg-ink-raised px-1.5 py-0.5 text-xs text-paper">NEXT_PUBLIC_SUPABASE_ANON_KEY</code> in{" "}
-          <code className="rounded bg-ink-raised px-1.5 py-0.5 text-xs text-paper">.env.local</code> to activate account sign-in.
+          Supabase is ready to be wired for project <code className="rounded bg-ink-raised px-1.5 py-0.5 text-xs text-paper">mhowgvkyfnzpciwcbivr</code>.
+          Set <code className="rounded bg-ink-raised px-1.5 py-0.5 text-xs text-paper">NEXT_PUBLIC_SUPABASE_ANON_KEY</code> and{" "}
+          <code className="rounded bg-ink-raised px-1.5 py-0.5 text-xs text-paper">SUPABASE_SERVICE_ROLE_KEY</code> in{" "}
+          <code className="rounded bg-ink-raised px-1.5 py-0.5 text-xs text-paper">.env.local</code> (or in Vercel project environment settings) to activate account sign-in.
         </p>
       </div>
     );

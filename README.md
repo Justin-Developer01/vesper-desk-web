@@ -58,15 +58,21 @@ Phase 1 adds the web account shell (`/account`) with frost sign-in/sign-up and s
 
 ### Setup Instructions
 
-1. **Supabase Database Migration**:
-   - In your Supabase Dashboard or CLI, run the migration in `supabase/migrations/20260926000000_vesper_accounts.sql`.
+1. **Supabase Database Migration (Project: `mhowgvkyfnzpciwcbivr`)**:
+   - In your Supabase Dashboard SQL Editor (or using the Supabase CLI linked to `mhowgvkyfnzpciwcbivr`):
+     ```bash
+     # To link and push via Supabase CLI:
+     npx supabase link --project-ref mhowgvkyfnzpciwcbivr
+     npx supabase db push
+     ```
+     Or paste and run `supabase/migrations/20260926000000_vesper_accounts.sql` directly into the Supabase Dashboard SQL editor.
    - This creates `profiles` and `linked_platforms` tables, RLS policies, `on_auth_user_created` trigger, and the `user_linked_platforms` security-invoker view.
 
 2. **Environment Variables**:
    Copy `.env.example` to `.env.local` (or configure in Vercel project settings):
-   - `NEXT_PUBLIC_SUPABASE_URL`: Your Supabase project URL.
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Your Supabase anon/publishable key.
-   - `SUPABASE_SERVICE_ROLE_KEY`: Your Supabase service role key (server-only).
+   - `NEXT_PUBLIC_SUPABASE_URL`: `https://mhowgvkyfnzpciwcbivr.supabase.co` (pre-configured)
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Set your anon/publishable key from the Supabase Dashboard (Project Settings → API).
+   - `SUPABASE_SERVICE_ROLE_KEY`: Set your service role key (server-only, Project Settings → API).
    - `TOKEN_ENCRYPTION_KEY`: A 32-byte secret for token encryption (generate with `openssl rand -hex 32`).
    - `KICK_CLIENT_ID`: Kick developer application client ID.
    - `KICK_CLIENT_SECRET`: Kick developer application client secret.
