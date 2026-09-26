@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { productName, publisherName, siteRepoUrl } from "@/lib/site";
 
 export function SiteFooter() {
@@ -7,7 +8,7 @@ export function SiteFooter() {
         <p className="m-0 text-sm text-muted">
           © 2026 {publisherName}. {productName} is not affiliated with Twitch, Kick, or YouTube.
         </p>
-        <nav aria-label="Footer" className="flex gap-5 text-sm">
+        <nav aria-label="Footer" className="flex flex-wrap gap-5 text-sm">
           <a
             href={siteRepoUrl}
             className="text-muted no-underline hover:text-paper"
@@ -16,9 +17,15 @@ export function SiteFooter() {
           >
             GitHub
           </a>
-          <a href="#docs" className="text-muted no-underline hover:text-paper">
+          <Link href="/#docs" className="text-muted no-underline hover:text-paper">
             Docs
-          </a>
+          </Link>
+          <Link href="/legal/terms" className="text-muted no-underline hover:text-paper">
+            Terms
+          </Link>
+          <Link href="/legal/privacy" className="text-muted no-underline hover:text-paper">
+            Privacy
+          </Link>
         </nav>
       </div>
     </footer>
