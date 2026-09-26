@@ -40,6 +40,9 @@ export default function TermsPage() {
               <p>
                 Vesper Desk is an independent application and is not affiliated with, endorsed by, or sponsored by Twitch, Kick, YouTube, or Google. Your use of third-party platforms remains subject to their respective terms and community guidelines.
               </p>
+              <p>
+                Vesper does not guarantee eligibility for platform reward programs, including Twitch Drops. Channel points, presence credit, and similar benefits are controlled by each platform and may be limited or unavailable when you watch through Vesper.
+              </p>
             </section>
 
             <section className="space-y-2">
