@@ -110,7 +110,7 @@ export default function TermsPage() {
               </p>
               <div className="space-y-2">
                 <h3 className="text-sm font-medium text-paper">Platform Rewards Disclaimer</h3>
-                <p className="font-medium text-paper">
+                <p>
                   Vesper does not guarantee eligibility for platform reward programs, including Twitch Drops. Channel points, presence credit, and similar benefits are controlled by each platform and may be limited or unavailable when you watch through Vesper.
                 </p>
                 <p>
